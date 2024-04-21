@@ -1,2 +1,6 @@
 venv/*
 *.pyc
+frontend/moneymanager/node_modules/*
+**.editorconfig
+**.angular/
+**.vscode/
