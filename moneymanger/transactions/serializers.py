@@ -7,6 +7,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "description", "created_at", "updated_at"]
+        read_only_fields = ['id', 'created_at', 'updated_at']
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -22,3 +23,5 @@ class TransactionSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+        read_only_fields = ["id", 'created_at',  "updated_at"]
+
