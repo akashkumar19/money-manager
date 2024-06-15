@@ -11,40 +11,41 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [ButtonModule, TableModule, CommonModule],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styleUrl: './categories.component.css',
 })
 export class CategoriesComponent {
-  url = 'http://127.0.0.1:8000/api/category/'
-  constructor(private httpService: HttpService, private cdr: ChangeDetectorRef, private router: Router) {}
-  cols = ['id', 'name', 'description', 'Action']
-  products: any = [];
+  url = 'http://127.0.0.1:8000/api/category/';
+  constructor(
+    private httpService: HttpService,
+    private router: Router
+  ) {}
+  cols = ['id', 'name', 'description', 'Action'];
+  products: Category[] = [];
 
   ngOnInit() {
     this.getCategoryData();
   }
 
   getCategoryData() {
-    this.httpService.get(this.url).subscribe(
-      response => this.products = response
-    )
+    this.httpService
+      .get<Category[]>(this.url)
+      .subscribe((response) => (this.products = response));
   }
-
 
   handleDelete(id: any) {
     this.httpService.delete(`${this.url}${id}/`).subscribe({
       complete: () => {
         this.getCategoryData();
-      }
-    })
+      },
+    });
   }
 
   handleEdit(id: any) {
-    this.router.navigate(["category", id]);
+    this.router.navigate(['category', id]);
   }
 
   addCategory(): void {
-    console.log('clicked add category')
-    this.router.navigate(["category/add"])
+    console.log('clicked add category');
+    this.router.navigate(['category/add']);
   }
-  
 }

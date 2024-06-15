@@ -1,47 +1,31 @@
 <div class="card justify-content-center">
   <form [formGroup]="transaction" (ngSubmit)="onSubmit()">
     <div class="formgrid justify-content-center">
-        <div class="field col-6">
-          <label for="amount" class="p-label">Amount : </label>
-          <p-inputNumber class="w-full" styleClass="w-full" formControlName="amount" inputId="amount" mode="currency" currency="INR" 
-          currencyDisplay="code" 
-          locale="en-IN" />
-        </div>
-        <div class="field col-6">
-          <label for="transaction_date">Transaction Date : </label>
-          <p-calendar
-            formControlName="transaction_date"
-            [showIcon]="true"
-            styleClass="w-full"
-            dataType="string"
-            dateFormat="yy-mm-dd"
-          ></p-calendar>
-        </div>
-        <div class="field col-6">
-          <label for="transaction_type">Transaction Type : </label>
-          <p-dropdown
-            formControlName="transaction_type"
-            [options]="transaction_type"
-            placeholder="Select type of transaction"
-            styleClass="w-full"
-          ></p-dropdown>
-        </div>
-        <div class="field col-6">
-          <label for="note">Note : </label>
-          <input pInputText type="text" class="w-full" formControlName="note" required />
-        </div>
-        <div class="field col-6">
-          <label for="category">Category : </label>
-          <p-dropdown
-            id="category"
-            formControlName="category"
-            [options]="category"
-            optionLabel="name"
-            placeholder="Select type of transaction"
-            styleClass="w-full"
-          ></p-dropdown>
-        </div>
+      <div class="field col-6">
+        <label for="amount" class="p-label">Amount : </label>
+        <p-inputNumber class="w-full" styleClass="w-full" formControlName="amount" inputId="amount" mode="currency"
+          currency="INR" currencyDisplay="code" locale="en-IN" />
       </div>
+      <div class="field col-6">
+        <label for="transaction_date">Transaction Date : </label>
+        <p-calendar formControlName="transaction_date" [showIcon]="true" styleClass="w-full" dataType="string"
+          dateFormat="yy-mm-dd"></p-calendar>
+      </div>
+      <div class="field col-6">
+        <label for="transaction_type">Transaction Type : </label>
+        <p-dropdown formControlName="transaction_type" [options]="transaction_type"
+          placeholder="Select type of transaction" styleClass="w-full"></p-dropdown>
+      </div>
+      <div class="field col-6">
+        <label for="note">Note : </label>
+        <input pInputText type="text" class="w-full" formControlName="note" required />
+      </div>
+      <div class="field col-6">
+        <label for="category">Category : </label>
+        <p-dropdown id="category" formControlName="category" [options]="category" optionLabel="name"
+          placeholder="Select type of transaction" styleClass="w-full"></p-dropdown>
+      </div>
+    </div>
     <p-button label="Submit" type="submit"></p-button>
   </form>
 </div>

@@ -9,21 +9,30 @@ import { AddTransactionComponent } from './components/transactions/add-transacti
 import { AddCategoryComponent } from './components/categories/add-category/add-category.component';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'home'},
-  { path: 'home', component: HomeComponent},
-  { path: 'transaction', component: TransactionsComponent},
-  { path: "transaction/add", component: AddTransactionComponent},
-  { path: "transaction/:id", component: AddTransactionComponent},
-  { path: 'category', component: CategoriesComponent},
-  { path: "category/add", component: AddCategoryComponent},
-  { path: "category/:id", component: AddCategoryComponent},
-  { path: "add-category", component: AddCategoryComponent},
-  { path: 'reports', component: ReportsComponent},
-  { path: 'settings', component: DashboardComponent},
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
+  { path: 'home', component: HomeComponent },
+  {
+    path: 'transaction',
+    children: [
+      { path: '', component: TransactionsComponent },
+      { path: 'add', component: AddTransactionComponent },
+      { path: ':id', component: AddTransactionComponent },
+    ],
+  },
+  {
+    path: 'category',
+    children: [
+      { path: '', component: CategoriesComponent },
+      { path: 'add', component: AddCategoryComponent },
+      { path: ':id', component: AddCategoryComponent },
+    ],
+  },
+  { path: 'reports', component: ReportsComponent },
+  { path: 'settings', component: DashboardComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
