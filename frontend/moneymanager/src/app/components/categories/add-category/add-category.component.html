@@ -1,0 +1,17 @@
+<div class="card justify-content-center">
+    <form [formGroup]="category" (ngSubmit)="onSubmit()">
+      <div class="formgrid justify-content-center">
+          <div class="field col-6">
+            <label for="name">Name : </label>
+            <input pInputText type="text" class="w-full" formControlName="name" required />
+          </div>
+          <div class="field col-12">
+            <label for="description">Description: </label>
+              <textarea rows="5" cols="30" class="w-full" pInputTextarea formControlName="description">
+                  </textarea>
+          </div>
+        </div>
+      <p-button label="Submit" type="submit"></p-button>
+    </form>
+  </div>
+  

@@ -5,6 +5,8 @@ import { TabMenuModule } from 'primeng/tabmenu'
 import { MenuItem } from 'primeng/api';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './home/home.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -14,8 +16,9 @@ import { HomeComponent } from './home/home.component';
   styleUrls: ['./app.component.css'],
   imports: [
             TabMenuModule, 
-            RouterOutlet
-          ],
+            RouterOutlet,
+            HttpClientModule
+                    ],
 })
 export class AppComponent implements OnInit{
   title = 'moneymanager';

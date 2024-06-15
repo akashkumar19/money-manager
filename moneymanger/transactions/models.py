@@ -14,7 +14,7 @@ class TimeStampedModel(models.Model):
 
 class Category(TimeStampedModel):
     id = models.UUIDField(auto_created=True, primary_key=True, default=uuid4)
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=20, unique=True)
     description = models.TextField(null=True, blank=True)
 
     def __str__(self) -> str:
@@ -37,7 +37,7 @@ class Transaction(
     note = models.TextField(
         null=True, blank=True
     )  # Note field to store any additional notes related to the particular transaction.
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.PROTECT)
 
     def __str__(self):
         return f"{self.transaction_type}-{self.category.name}"
