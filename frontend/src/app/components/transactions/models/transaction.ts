@@ -6,6 +6,7 @@ export interface Transaction {
   transaction_date: Date;
   transaction_type: 'Income' | 'Expense';
   category: Category;
+  updatedAt?: Date;
   note?: string
 }
 

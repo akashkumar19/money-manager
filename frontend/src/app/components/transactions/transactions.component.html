@@ -32,6 +32,21 @@
                     </div>
                 </td>
                 }
+                @else if(col == 'updatedAt' || col == 'transactionDate') {
+                    <td>
+                        {{ rowData[col] | date }}
+                    </td>
+                }
+                @else if(col == 'transactionType') {
+                    <td>
+                        @if(rowData[col] == 'Income') {
+                            <p-button [label]="rowData[col]" severity="success" [rounded]="true" [outlined]="true" />
+                        } @else {
+                            <p-button [label]="rowData[col]" severity="danger" [rounded]="true" [outlined]="true" />
+                        }
+                    </td>
+
+                }
                 @else {
                 <td>
                     {{ rowData[col] }}
