@@ -1,5 +1,3 @@
-from dataclasses import fields
-import decimal
 from rest_framework import serializers
 
 from .models import Category, Transaction
@@ -9,7 +7,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ["id", "name", "description", "created_at", "updated_at"]
-        read_only_fields = ['id', 'created_at', 'updated_at']
+        read_only_fields = ["id", "created_at", "updated_at"]
 
 
 class TransactionSerializer(serializers.ModelSerializer):
@@ -26,6 +24,7 @@ class TransactionSerializer(serializers.ModelSerializer):
 
 class TransactionReadSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
+
     class Meta:
         model = Transaction
         fields = [
@@ -38,6 +37,7 @@ class TransactionReadSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
+
 
 class TransactionAnalyticsSerializer(serializers.Serializer):
     category = serializers.CharField(max_length=100)
