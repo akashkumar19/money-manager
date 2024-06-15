@@ -20,5 +20,5 @@ from transactions import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include((urls, 'transactions')))
+    path('api/', include((urls)))
 ]
