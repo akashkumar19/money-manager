@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements.txt
     - name: Run Tests
       run: |
-        python moneymanager/manage.py test
+        cd moneymanager && python manage.py test
