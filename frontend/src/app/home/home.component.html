@@ -1,1 +1,100 @@
-<p>home works!</p>
+<div class="m-2 flex justify-content-between align-items-center">
+    <h1>Dashboard</h1>
+    <div>
+        <label for="filter-date" class="mr-2 font-semibold">Filter Month</label>
+        <p-calendar dateFormat="mm-yy" [(ngModel)]="selectedDate" view="month"
+            (onSelect)="handleDateSelection()"></p-calendar>
+    </div>
+</div>
+@if(!transactionData?.transactions?.length){
+<div class="flex w-full justify-content-center align-items-center" style="height: 100vh">
+    <h1 class="text-green-700 text-5xl font-semibold font-italic text-center">No Transaction for This Month!!!</h1>
+</div>
+}
+@else{
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <div class="flex justify-content-between">
+                    <div class="income">
+                        <h2>Total Income This Month</h2>
+                        <h1 class="text-green-700">{{ transactionData.totalIncome | currency: 'INR'}}</h1>
+                    </div>
+                    <div class="balance">
+                        <h2>Balance</h2>
+                        <h1 [class]="transactionData.balance > 0 ? 'text-green-700': 'text-red-700'">{{
+                            transactionData.balance | currency: 'INR'}}</h1>
+                    </div>
+                    <div class="expense">
+                        <h2>Total Spending This Month</h2>
+                        <h1 class="text-red-700">{{ transactionData.totalExpense | currency:'INR' }}</h1>
+                    </div>
+                </div>
+                <div class="card flex justify-content-center">
+                    <p-chart type="pie" [data]="data" [options]="options" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h2>Recent Transactions</h2>
+                <p-table [columns]="cols" [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
+                    <ng-template pTemplate="header" let-columns>
+                        <tr>
+                            @for(col of columns; track $index) {
+
+                            <th>
+                                {{ col | uppercase}}
+                            </th>
+
+                            }
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-rowData let-columns="columns">
+                        <tr>
+                            @for( col of columns; track $index; ) {
+                            @if( col == 'category'){
+                            <td>
+                                {{ rowData[col]['name']}}
+                            </td>
+                            }
+                            @else if(col == 'updatedAt' || col == 'transactionDate') {
+                            <td>
+                                {{ rowData[col] | date }}
+                            </td>
+                            }
+                            @else if(col == 'transactionType') {
+                            <td>
+                                <p-tag [value]="rowData[col]" [severity]="getSeverity(rowData[col])" />
+                            </td>
+
+                            }
+                            @else {
+                            <td>
+                                {{ rowData[col] }}
+                            </td>
+                            }
+                            }
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-body">
+                <h2>Income vs Expense</h2>
+                <div class="card flex justify-content-center">
+                    <p-chart type="bar" [data]="barData" height="25rem" width="50rem" [options]="barOptions" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+}

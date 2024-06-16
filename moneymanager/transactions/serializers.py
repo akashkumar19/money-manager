@@ -37,11 +37,3 @@ class TransactionReadSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-
-
-class TransactionAnalyticsSerializer(serializers.Serializer):
-    category = serializers.CharField(max_length=100)
-    year = serializers.IntegerField(required=False)
-    month = serializers.IntegerField(required=False)
-    total_amount = serializers.DecimalField(max_digits=100, decimal_places=2)
-    percentage = serializers.DecimalField(max_digits=100, decimal_places=2)

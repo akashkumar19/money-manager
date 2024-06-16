@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { HttpService } from 'src/app/services/http.service';
 import { Transaction } from './models/transaction';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-transactions',
@@ -21,6 +22,7 @@ import { Transaction } from './models/transaction';
     DropdownModule,
     TableModule,
     CommonModule,
+    TagModule,
   ],
   providers: [HttpService],
   templateUrl: './transactions.component.html',
@@ -68,7 +70,17 @@ export class TransactionsComponent {
   }
 
   addTransaction(): void {
-    console.log('clicked add transaction');
     this.router.navigate(['transaction/add']);
+  }
+
+  getSeverity(status: string) {
+    switch (status) {
+      case 'Income':
+        return 'success';
+      case 'Expense':
+        return 'warning';
+      default:
+        return 'warning';
+    }
   }
 }

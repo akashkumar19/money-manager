@@ -25,26 +25,22 @@
                 @else if(col == 'Action') {
                 <td>
                     <div class="flex gap-2">
-                        <p-button icon="pi pi-pencil" [outlined]="true" severity="info"
+                        <p-button icon="pi pi-pencil" [outlined]="true" [rounded]="true" severity="info"
                             (onClick)="handleEdit(rowData['id'])"></p-button>
-                        <p-button icon="pi pi-trash" [outlined]="true" severity="danger"
+                        <p-button icon="pi pi-trash" [outlined]="true" [rounded]="true" severity="danger"
                             (onClick)="handleDelete(rowData['id'])"></p-button>
                     </div>
                 </td>
                 }
                 @else if(col == 'updatedAt' || col == 'transactionDate') {
-                    <td>
-                        {{ rowData[col] | date }}
-                    </td>
+                <td>
+                    {{ rowData[col] | date }}
+                </td>
                 }
                 @else if(col == 'transactionType') {
-                    <td>
-                        @if(rowData[col] == 'Income') {
-                            <p-button [label]="rowData[col]" severity="success" [rounded]="true" [outlined]="true" />
-                        } @else {
-                            <p-button [label]="rowData[col]" severity="danger" [rounded]="true" [outlined]="true" />
-                        }
-                    </td>
+                <td>
+                    <p-tag [value]="rowData[col]" [severity]="getSeverity(rowData[col])" />
+                </td>
 
                 }
                 @else {
