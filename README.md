@@ -1,5 +1,5 @@
 ## **Overview**:
-Developed a comprehensive `Money Manager` Application using `Django` for the backend and `Angular` with `PrimeNG` for the frontend. The application features a robust system for managing `transactions` and `categories`, along with an `analytics dashboard` to provide financial insights.
+A comprehensive `Money Manager` Application using `Django` for the backend and `Angular` with `PrimeNG` for the frontend. The application features a robust system for managing `transactions` and `categories`, along with an `analytics dashboard` to provide financial insights.
 
 ## **Backend**:
 
