@@ -16,26 +16,26 @@ Developed a comprehensive `Money Manager` Application using `Django` for the bac
 - **Framework**: Angular
 - **UI Components**: Utilized `PrimeNG` library for an enhanced user interface.
 - **Dashboard**:
-  - Displayed a pie chart for transactions by category.
+  - Displayed a `pie chart` for transactions by category.
   - Showcased current transactions.
-  - Implemented a bar graph to compare income versus expenses using PrimeNG Chart module.
+  - Implemented a `bar graph` to compare `income` versus `expenses` using `PrimeNG Chart` module.
 - **Menu Management**:
-  - Implemented table views for displaying transactions and categories using PrimeNG Table component.
-  - Added functionality for editing, deleting, and adding new transactions and categories using Angular Reactive Forms and HTTPClient for API calls.
+  - Implemented table views for displaying transactions and categories using `PrimeNG Table` component.
+  - Added functionality for editing, deleting, and adding new transactions and categories using `Angular Reactive Forms` and `HTTPClient` for API calls.
     
 ## **Key Features**:
 
 - **Analytics Dashboard**: Provides a visual representation of financial data, aiding in better financial decision-making.
-- **CRUD Operations**: Full support for Create, Read, Update, and Delete operations on transactions and categories.
+- **CRUD Operations**: Full support for `Create`, `Read`, `Update`, and `Delete` operations on transactions and categories.
 - **Real-time Updates**: Ensures data is always current and reflective of the latest financial status.
 - **User-Friendly Interface**: Designed for ease of use, making financial management accessible to users.
   
-## **Technical Skills**:
+## **Tech Stack**:
 
-- **Backend**: Django, Django REST framework
-- **Frontend**: Angular, PrimeNG, Angular Reactive Forms, HTTPClient
-- **Data Visualization**: PrimeNG Chart module
-- **API Integration**: Seamless communication between frontend and backend using RESTful APIs
+- **Backend**: `Django`, `Django REST framework`
+- **Frontend**: `Angular`, `PrimeNG`, `Angular Reactive Forms`, `HTTPClient`
+- **Data Visualization**: `PrimeNG Chart module`
+- **API Integration**: Seamless communication between frontend and backend using `RESTful APIs`
     
 ## **Impact**:
 
