@@ -138,15 +138,35 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         return last_date
 
     @action(
-        methods=["get"],
-        detail=False,
-        url_path="transaction/filter",
-        url_name="filter-transaction",
+    methods=["get"],
+    detail=False,
+    url_path="transaction/filter",
+    url_name="filter-transaction",
     )
-    def filter_transactions(
-        self,
-        request,
-    ):
+    def filter_transactions(self, request):
+        """
+        This function retrieves transactions for the specified date range and performs various analytics.
+
+        Parameters:
+        request (Request): The request object containing query parameters.
+
+        Returns:
+        Response: A response object containing the filtered transactions.
+
+        This function first retrieves all transactions within the specified date range and orders them by the amount in descending order. Then, it annotates each transaction with a 'total_amount' field, which is either the transaction amount if it's an income, or the negative of the transaction amount if it's an expense.
+
+        Next, it calculates the total net balance by summing up the 'total_amount' field of all transactions. It also groups the transactions by category and calculates the total amount spent on each category within the specified date range.
+
+        Finally, it calculates the total income and total expense within the specified date range by filtering the transactions by their 'transaction_type' field.
+
+        The function returns a dictionary containing the following keys and values:
+
+        - 'transactions': A list of serialized Transaction objects within the specified date range.
+        - 'balance': The total net balance within the specified date range.
+        - 'transactions_by_category': A list of dictionaries, where each dictionary contains the category name and the total amount spent on that category within the specified date range.
+        - 'total_income': The total amount of income within the specified date range.
+        - 'total_expense': The total amount of expense within the specified date range.
+        """
         start_date = request.query_params.get("start")
         end_date = request.query_params.get("end")
         if not start_date and not end_date:
@@ -161,6 +181,15 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         methods=["get"], detail=False, url_path="transaction", url_name="transaction"
     )
     def get_current_month_transactions(self, request):
+        """
+        This function retrieves transactions for the current month.
+
+        Parameters:
+        request (Request): The request object containing query parameters.
+
+        Returns:
+        Response: A response object containing the filtered transactions.
+        """
         today = date.today()
         start_date = today.replace(day=1)
         end_date = date.today()
@@ -169,6 +198,31 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         return Response(data)
 
     def _filter_transaction_analytics(self, start_date, end_date):
+        """
+        This function retrieves transactions for the specified date range and performs various analytics.
+
+        Parameters:
+        start_date (str): The start date of the date range in the format "YYYY-MM-DD".
+        end_date (str): The end date of the date range in the format "YYYY-MM-DD".
+
+        Returns:
+        dict: A dictionary containing the following keys and values:
+
+        - 'transactions': A list of serialized Transaction objects within the specified date range.
+        - 'balance': The total net balance within the specified date range.
+        - 'transactions_by_category': A list of dictionaries, where each dictionary contains the category name and the total amount spent on that category within the specified date range.
+        - 'total_income': The total amount of income within the specified date range.
+        - 'total_expense': The total amount of expense within the specified date range.
+
+        This function first retrieves all transactions within the specified date range and orders them by the amount in descending order. Then, it annotates each transaction with a 'total_amount' field, which is either the transaction amount if it's an income, or the negative of the transaction amount if it's an expense.
+
+        Next, it calculates the total net balance by summing up the 'total_amount' field of all transactions. It also groups the transactions by category and calculates the total amount spent on each category within the specified date range.
+
+        Finally, it calculates the total income and total expense within the specified date range by filtering the transactions by their 'transaction_type' field.
+
+        The function returns a dictionary containing the above-mentioned keys and values.
+        """
+
         transactions = Transaction.objects.filter(
             transaction_date__range=(start_date, end_date)
         ).order_by("-amount")
@@ -202,7 +256,6 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
             or 0
         )
 
-        # You can further process the data (e.g., group by category)
         data = {
             "transactions": TransactionReadSerializer(
                 instance=transactions, many=True
