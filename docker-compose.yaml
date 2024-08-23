@@ -1,0 +1,27 @@
+version: '1'
+
+services:
+  db:
+    image: postgres:15
+    restart: always
+    environment:
+      POSTGRES_DB: moneymanager
+      POSTGRES_USER: moneymanager
+      POSTGRES_PASSWORD: moneymanager
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build: .
+    command: bash -c "cd moneymanager && python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    container_name: money_manager
+    volumes:
+      - .:/moneymanager
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  
+    
+volumes:
+  postgres_data:

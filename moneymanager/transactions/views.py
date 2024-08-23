@@ -21,8 +21,12 @@ class TransactionViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
 
     def list(self, request, *args, **kwargs):
+        search = request.query_params.get("search")
         queryset = self.get_queryset()
+        if search:
+            queryset = queryset.filter(note__icontains=search)
         serializer = TransactionReadSerializer(queryset, many=True)
+        print(serializer.data)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def retrieve(self, request, id=None):
@@ -64,9 +68,7 @@ class TransactionViewSet(viewsets.ModelViewSet):
         if instance:
             instance.delete()
         else:
-            return Response(
-                {"error": "Tranasaction not found"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Tranasaction not found"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -77,7 +79,10 @@ class CategoryViewSet(viewsets.ModelViewSet):
     lookup_field = "id"
 
     def list(self, request, *args, **kwargs):
+        search = request.query_params.get("search")
         queryset = self.get_queryset()
+        if search:
+            queryset = queryset.filter(name__icontains=search)
         serializer = self.get_serializer(instance=queryset, many=True)
         return Response(
             serializer.data,
@@ -120,9 +125,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
             except Exception as e:
                 raise Exception(e)
         else:
-            return Response(
-                {"error": "Category not found"}, status=status.HTTP_400_BAD_REQUEST
-            )
+            return Response({"error": "Category not found"}, status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -138,10 +141,10 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         return last_date
 
     @action(
-    methods=["get"],
-    detail=False,
-    url_path="transaction/filter",
-    url_name="filter-transaction",
+        methods=["get"],
+        detail=False,
+        url_path="transaction/filter",
+        url_name="filter-transaction",
     )
     def filter_transactions(self, request):
         """
@@ -177,9 +180,7 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         data = self._filter_transaction_analytics(start_date, end_date)
         return Response(data)
 
-    @action(
-        methods=["get"], detail=False, url_path="transaction", url_name="transaction"
-    )
+    @action(methods=["get"], detail=False, url_path="transaction", url_name="transaction")
     def get_current_month_transactions(self, request):
         """
         This function retrieves transactions for the current month.
@@ -223,9 +224,7 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         The function returns a dictionary containing the above-mentioned keys and values.
         """
 
-        transactions = Transaction.objects.filter(
-            transaction_date__range=(start_date, end_date)
-        ).order_by("-amount")
+        transactions = Transaction.objects.filter(transaction_date__range=(start_date, end_date)).order_by("-amount")
         # Annotate transactions with total amount, considering the transaction type
         transactions = transactions.annotate(
             total_amount=Case(
@@ -237,29 +236,15 @@ class AnalyticsViewSet(viewsets.GenericViewSet):
         # Calculate total spent amount and group by category
         net_balance = transactions.aggregate(total=Sum("total_amount"))["total"] or 0
         transactions_by_category = (
-            transactions.values("category__name")
-            .annotate(total_amount=Sum("amount"))
-            .order_by("category__name")
+            transactions.values("category__name").annotate(total_amount=Sum("amount")).order_by("category__name")
         )
 
         # Calculate income and expense separately
-        total_income = (
-            transactions.filter(transaction_type="Income").aggregate(
-                total=Sum("amount")
-            )["total"]
-            or 0
-        )
-        total_expense = (
-            transactions.filter(transaction_type="Expense").aggregate(
-                total=Sum("amount")
-            )["total"]
-            or 0
-        )
+        total_income = transactions.filter(transaction_type="Income").aggregate(total=Sum("amount"))["total"] or 0
+        total_expense = transactions.filter(transaction_type="Expense").aggregate(total=Sum("amount"))["total"] or 0
 
         data = {
-            "transactions": TransactionReadSerializer(
-                instance=transactions, many=True
-            ).data,
+            "transactions": TransactionReadSerializer(instance=transactions, many=True).data,
             "balance": float(net_balance),
             "transactions_by_category": list(transactions_by_category),
             "total_income": float(total_income),
