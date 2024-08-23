@@ -28,11 +28,11 @@ jobs:
         python-version: [3.11]
 
     steps:
+    - uses: actions/checkout@v4
     - name: Build and Run Docker Compose
     - run: |
         docker-compose build
         docker-compose up --detach
-    - uses: actions/checkout@v4
     - name: Run Tests
       run: |
         docker-compose exec money-manager cd moneymanager && python manage.py test
